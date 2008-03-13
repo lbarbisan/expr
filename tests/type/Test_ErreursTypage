@@ -1,0 +1,36 @@
+/*************************************
+*	test the use of for
+**************************************/
+var x1:bool=2;
+var x2:int=2;
+var x3:float=2;
+var x4:bool=true;
+var x5:int=true;
+var x6:float=true;
+var x7:bool=2.0;
+var x8:int=2.3;
+var x9:float=3.2;
+var x10 =true;
+var x11 =4.5;
+var x12 = 4;
+var x13 = "zerzer";
+var x14:float = 1 + "zerzer";
+print ("aze" + 3);
+
+var x12:bool=2 + true;
+var x12:bool=true + 2;
+var x22:int=2 + true;
+var x32:int=2.0 + true;
+var x42:bool=2 + true;
+var x52:int=2 + true;
+var x62:float=2 + true;
+var x72:bool=2 + true;
+var x82:int=2 + true;
+var x92:float=2 + true;
+var x102 =true + 2;
+var x112 =2 + true;
+var x122 =2 + true;
+var x132 = true && 2;
+var x142 = 2 ^^ true;
+var x152 =2 || true;
+print "-17 || 0" + -17 || 0  + "\n";

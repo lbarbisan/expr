@@ -1,0 +1,10 @@
+/*************************
+*	Test 02
+*	Le test doit échouer
+*	=> h n'est pas définit
+**************************/
+var a = 1;
+var b = 2;
+function fct1(c,d) = a + h;
+
+

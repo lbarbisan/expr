@@ -1,0 +1,13 @@
+/***********************
+*	Test 05
+*	test d'une boucle for
+************************/
+var b = 1;
+for a=(1+b) to (3+b) print a*b;
+for d = 1+4 to 8+9 print d;
+for e = 1+4 to 8+9 print "\n";
+for f =  4 to 8+9 print "sdfs\n";
+for g =  4 to 8+9 print "sdfs\n";
+for h =  4 to 8+9 print "sdfs\n";
+for i =   4 to 8+9 print "sdfs\n";
+for j =   4 to 8+9 print "sdfs\n";

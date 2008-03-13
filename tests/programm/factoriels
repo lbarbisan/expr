@@ -1,0 +1,10 @@
+/***************************
+*	Test 12
+*	Test des
+****************************/
+function fact( n ) =
+  if n = 0 then 1
+ else
+   let xn = fact(n-1) in
+    xn * n ;
+for x=0 to 5 print "fact(" + x + ")=" + fact(x) + "\n" ;

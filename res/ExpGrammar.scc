@@ -1,0 +1,206 @@
+Package fr.umlv.ir2.compil.languageparser;
+
+Helpers
+	all = [0 .. 0xFFFF];
+	lowercase = ['a' .. 'z'];
+	uppercase = ['A' .. 'Z'];
+	
+	digit = ['0' .. '9'];
+	null_digit = '0';
+	no_null_digit = ['1'..'9'];
+	nondigit = ['_' + [[ 'a' .. 'z' ] + [ 'A' .. 'Z']]];
+	hex_digit = [digit + [['a' .. 'f'] + ['A' .. 'F']]];
+	
+	digit_sequence = digit+;
+	
+	separator = '.';
+	real_number = digit_sequence? separator digit_sequence | digit_sequence separator;
+	
+	signe = '+' | '-';
+	exponent = ('e' | 'E') signe? digit_sequence;
+    float_suffix = 'f' | 'F' | 'l' | 'L';
+	decimal_number = no_null_digit digit* | null_digit;
+	
+	star = '*';
+
+	tab = 9;
+	cr = 13;
+	lf = 10;
+	eol = cr lf | cr | lf; 
+	comma = ',';
+	
+	not_cr_lf = [all -[cr + lf]];
+	not_star = [all -'*'];
+	not_star_slash = [not_star -'/'];
+	blank = (' ' | tab | eol)+;
+	short_comment = '//' not_cr_lf* eol;
+	long_comment = '/*' (not_star | '*'+not_star_slash)* star* '*/';
+	comment = short_comment | long_comment;
+	letter = lowercase | uppercase | '_' | '$';
+	id_part = lowercase (lowercase | digit)*;
+	
+	char = ''' not_cr_lf ''';
+	dot = '.';
+	
+	q_mark = '?';
+	
+	pipe = '|';
+	
+	hex_char = '0' ('x' | 'X') hex_digit+;
+	
+Tokens
+
+	// Mots clef
+	mc_var = 'var';
+	mc_function = 'function';
+	mc_print = 'print';
+	mc_for = 'for';
+	mc_to = 'to';
+	mc_int = 'int';
+	mc_float = 'float';
+	mc_bool = 'bool';
+	mc_if = 'if';
+	mc_then = 'then';
+	mc_else = 'else';
+	mc_let = 'let';
+	mc_in = 'in';
+	mc_not = 'not';
+	
+	// Définition des types
+	type = ':'('float'|'int'|'bool');
+	
+	// Entier
+	int = digit+;
+	
+	// Flottants
+	float = real_number exponent? float_suffix? |
+        digit_sequence exponent float_suffix?;
+	
+	// Boolean
+	bool = 'true'|'false';
+	
+	// Identificateur
+	id = nondigit ( digit | nondigit ) *;
+	
+	// Symboles
+	equal = '=';
+	l_par = '(';
+	r_par = ')';
+	l_bracket = '[';
+	r_bracket = ']';
+	plus = '+';
+	minus = '-';
+	semicolon = ';';
+	mult = star;
+	div = '/';
+	mod = '%';
+	comma = comma;
+	
+	//Comparaison
+   	lt = '<';
+    lteq = '<=';
+    gt = '>';
+    gteq = '>=';
+    and = '&&';
+   	or = '||';
+   	xor = '^^';
+	
+	// Texte
+	texte = '"' [not_cr_lf -'"']+ '"';
+	
+	// Blanc
+	blank = blank;
+	
+	// Commentaire
+	comment = comment;
+		
+Ignored Tokens
+	blank, comment;
+
+Productions
+	
+	grammar = P.declarations*;
+	
+	/*======== T Y P A G E S ========*/
+	
+	params = T.id T.type? T.comma;				// Paramètres
+	param_end = T.id T.type?;
+
+	function_name = T.id T.type ?;				// Nom de la fonction
+
+	local_var = T.id T.type?;					// Variable locale
+
+	global_var = T.id T.type?;					// Variable globale
+	
+	call_params = P.expression T.comma;			// Expression utile pour appel de fonction
+	call_params_end = P.expression;
+	
+	/*======== D E C L A R A T I O N S =======*/
+	
+	declarations = 
+		{global}mc_var global_var equal P.expression semicolon														// Déclaration de variables globales
+		| {function} mc_function function_name l_par params* param_end r_par type? equal P.expression semicolon		// Déclaration de fonctions
+		| {print} mc_print expression semicolon																		// Affichage de calculs
+		| {for} mc_for id equal [a]:P.expression mc_to [b]:P.expression mc_print [c]:P.expression semicolon;		// Boucle de calculs
+
+
+	/*======== E X P R E S S I O N S =======*/
+
+	expression =	{condition} expr_if_let
+					|{logic}expr_logic;
+
+/*(0) Condition et déclaration de variables locales */
+	expr_if_let  = 
+		{if} mc_if [a]:expression  mc_then [c]:expression  mc_else [e]:expression						// If E then E else E
+		|{let} mc_let local_var equal [a]:expression mc_in [b]:expression;								// Let X = E in E 
+
+
+/*(1) Expression OU ET XOR */
+	expr_logic =	{or}	expr_logic	T.or 	expr_comp
+					|{and}	expr_logic	T.and	expr_comp
+					|{xor}	expr_logic	T.xor	expr_comp
+					|{empty} 					expr_comp;
+	
+	
+/*(3) operateur de comparaison */
+	expr_comp =	{equal}	expr_comp	T.equal	expr_sum
+				|{lt}	expr_comp	T.lt	expr_sum
+				|{lteq}	expr_comp	T.lteq	expr_sum
+				|{gt}	expr_comp	T.gt	expr_sum
+				|{gteq}	expr_comp	T.gteq	expr_sum
+				|{empty} 					expr_sum;  
+
+/*(4) Addition et soustraction 	*/
+	expr_sum = 	{plus}	expr_sum	T.plus	expr_product
+				|{minus}expr_sum	T.minus	expr_product
+				|{empty}					expr_product;
+
+/*(5) Multiplications et divisions */
+	expr_product =	{mult}	expr_product	T.mult	P.expr_unary
+					|{div} 	expr_product	T.div 	P.expr_unary
+					|{mod}	expr_product	T.mod 	P.expr_unary
+					|{empty}						P.expr_unary;
+
+/*(6) opération unaire */
+	expr_unary = unary_op? expr_simple;
+
+
+/*(7) Expression priorité basse */
+	expr_simple = 	{par}		T.l_par		P.expression T.r_par	
+					|{bracket}	T.l_bracket P.expression T.r_bracket	
+					|{constants}P.constants										// Constantes
+					|{text}		T.texte											// Texte simple
+					|{call}		id l_par call_params* call_params_end? r_par	// Appel de fonction
+					|{id} 		T.id;											// Identifiant simple
+
+	/* ======= O P E R A T I O N  D E  B A S E ======= */ 
+	
+// constantes
+	constants =	{int}T.int
+				|{float}T.float
+				|{bool}T.bool;
+
+//opérateurs unaires
+	unary_op =  {plus}T.plus	
+				|{sub}T.minus	
+				|{not}T.mc_not;

@@ -1,0 +1,44 @@
+/***************************
+*	Test 11
+*	Le test doit échouer
+*	=> Variable y non définit
+****************************/
+var maxNumber = 300000;
+
+function loop1(x, i) =
+	if((i*i) <= x) then 
+		if((x % i) = 0) then
+			false
+		else
+			loop1(x, i+2)
+	else
+		true;
+		//Fin if
+	//Fin if
+//Fin function
+
+function EstPremier(x) =
+	// Inférieur à 2 : pas premier
+  	if (x<2) then
+  		false
+	else
+		// Egal 2 : premier
+		if(x = 2) then
+			true
+		 else
+			// Nombre pair autre que 2 : n'est pas premier
+			if((x % 2) = 0) then
+				false
+			else
+				//true; 
+				loop1(x, 3);
+			//Fin if
+		//Fin if
+	//Fin if
+//Fin function
+
+for index  = 0 to  maxNumber print index + " est premier : " + EstPremier(index) + "\n";
+
+
+
+

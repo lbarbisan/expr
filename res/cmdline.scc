@@ -1,0 +1,72 @@
+Package fr.umlv.ir2.compil.cmdlineparser;
+
+Helpers
+	all = [0 .. 0xFFFF];
+
+	//Blanc
+	tab = 9;
+	cr = 13;
+	lf = 10;
+	eol = cr lf | cr | lf; 
+	blank = (' ' | tab | eol);
+
+	//Texte
+	not_cr_lf = [all -[cr + lf]];
+
+	//option
+	options = ('-' | '/' | '--');
+	
+	//identificateur
+	id = [all -[[' ' + tab] + [cr + lf]]];
+
+	
+Tokens
+
+	quote = '"';
+
+	//options
+	opt_verbose = options ('verbose' | 'v');
+	opt_help = options ('help' |  'h');
+	opt_lex = options ('lex' | 'l');
+	opt_i = options ('info' | 'i');
+	opt_html =  options 'html';
+	opt_html_file = options 'd';
+	opt_x86 = options 'x86';
+	opt_obj = options 'o';
+	opt_vm = options 'vm';
+
+	// Identificateur
+	id = ([not_cr_lf -'"'])*;
+	
+	//Blanc
+	blank = blank+;
+
+Ignored Tokens
+	blank;
+
+Productions
+	
+	grammar = P.files* P.options_start;
+	
+	files = [left]:T.quote T.id [right]:T.quote ;
+
+	options_start =	[left]:T.quote P.options_end
+					|{empty};
+	
+	options_end =	{verbose}opt_verbose 		[right]:T.quote options_start
+					|{help}opt_help 			[right]:T.quote options_start
+					|{lex}opt_lex 				[right]:T.quote options_start
+					|{i}opt_i 					[right]:T.quote options_start
+					|{html}opt_html 			[right]:T.quote options_start
+					|{html_file}opt_html_file 	[right]:T.quote P.id? next_option
+					|{vm}opt_vm 				[right]:T.quote options_start
+					|{x86}opt_x86 				[right]:T.quote options_start
+					|{obj}opt_obj 				[right]:T.quote P.id? next_option;
+
+	next_option = 	[left]:T.quote P.options_end
+					|{empty};
+				
+	id =	[left]:T.quote T.id [right]:T.quote;
+		 
+
+		 

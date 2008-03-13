@@ -1,0 +1,10 @@
+/***********************
+*	Test 01
+*	Test le not
+************************/
+var a = 11;
+
+print "if not(a=10) then 1 else 2 = " + (if not(a=10) then 1 else 2) + "\n";
+print "not 14" + not 14 + "\n";
+
+

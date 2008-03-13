@@ -1,0 +1,14 @@
+/***************************
+*	Test 12
+*	Test des
+****************************/
+var p = 4;
+
+function puissance(v, p) = 
+	if p = 0 
+		then 1
+	else
+		let l = puissance(v, p-1) in
+		l * v;
+		
+for n = 1 to 15 print "\nValue = " + p + ", Puissance = " + n + ", Resultat = " + puissance(puissance(1), n,3);

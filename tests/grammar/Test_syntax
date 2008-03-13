@@ -1,0 +1,9 @@
+/***********************
+*	Test 01
+*	Le test doit réussir
+************************/
+var a:bool = 1;
+var b = 2
+function fct1(c,d):bool = a + d
+
+

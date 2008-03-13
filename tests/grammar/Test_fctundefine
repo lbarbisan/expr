@@ -1,0 +1,7 @@
+/***************************
+*	Test 04
+*	Le test doit réussir
+****************************/
+var a = 1;
+var b = 2;
+function fct1(c,d) = a + fct(c,d);

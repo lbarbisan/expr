@@ -1,0 +1,9 @@
+var a:bool = 1;
+var b:bool = 15;
+var c:bool = 0;
+print a + "\n";
+print b + "\n";
+print c + "\n";
+
+
+

@@ -1,0 +1,18 @@
+java -jar boitel_barbisan.jar
+	=> affiche l'aide
+
+D:\Projets\IR2\Compilation\Expr\lib>java -jar boitel_barbisan.jar  ..\tests\cmdline\tests
+	=> Donne une erreur le fihcier n'existe pas
+
+D:\Projets\IR2\Compilation\Expr\lib>java -jar boitel_barbisan.jar  ..\tests\cmdline\test
+D:\Projets\IR2\Compilation\Expr\lib>java -jar boitel_barbisan.jar  ..\tests\cmdline\test -vm
+D:\Projets\IR2\Compilation\Expr\lib>java -jar boitel_barbisan.jar  ..\tests\cmdline\test -x86
+D:\Projets\IR2\Compilation\Expr\lib>java -jar boitel_barbisan.jar  ..\tests\cmdline\test -o
+D:\Projets\IR2\Compilation\Expr\lib>java -jar boitel_barbisan.jar  ..\tests\cmdline\test -o prog.a
+D:\Projets\IR2\Compilation\Expr\lib>java -jar boitel_barbisan.jar  ..\tests\cmdline\test -html -d bonjour.html
+D:\Projets\IR2\Compilation\Expr\lib>java -jar boitel_barbisan.jar  ..\tests\cmdline\test -html -d
+D:\Projets\IR2\Compilation\Expr\lib>java -jar boitel_barbisan.jar  ..\tests\cmdline\test -html
+D:\Projets\IR2\Compilation\Expr\lib>java -jar boitel_barbisan.jar  ..\tests\cmdline\test -lex
+
+Les options prises en compte sont :
+- -- /

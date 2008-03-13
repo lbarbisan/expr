@@ -1,0 +1,9 @@
+/***************************
+*	Test 06
+*	Le test doit échouer
+*	=> fct1 déjà définit
+****************************/
+var a = 1;
+var b = 2;
+function fct1(c,d) = a + b;
+print fct1(1,2,3);

@@ -1,0 +1,15 @@
+  .body {
+	background-color: #FFFFCC;
+	font-family: "Courier New", Courier, mono;
+	font-size: 12pt;
+	line-height: 24px;
+	color: #333333;
+}
+
+.keyword {
+	font-family: "Courier New", Courier, mono;
+	font-size: 12pt;
+	line-height: 24px;
+	font-weight: bold;
+	color: #990066;
+}

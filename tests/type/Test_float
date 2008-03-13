@@ -1,0 +1,12 @@
+/***************************
+*	Test 11
+*	Le test doit échouer
+*	=> Variable y non définit
+****************************/
+var a:float = 1.0;
+var b:float = 2.4;
+var d:int = 5;
+var c:float = 2 + d;
+print (a+b+c);
+
+
